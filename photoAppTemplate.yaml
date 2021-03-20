@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Album data
 Resources:
-  CDDemoLambda1:
+  searchPhotos:
     Type: "AWS::Serverless::Function"
     Properties:
       FunctionName: search-photos
@@ -16,7 +16,7 @@ Resources:
       Environment:
         Variables:
           REGION: us-east-1
-  CDDemoLambda2:
+  indexPhotos:
     Type: "AWS::Serverless::Function"
     Properties:
       FunctionName: index-photos
@@ -39,13 +39,13 @@ Resources:
         LambdaConfigurations:
           - Event: 's3:ObjectCreated:Put'
             Function: !GetAtt 
-              - CDDemoLambda2
+              - indexPhotos
               - Arn
   BucketPermission:
     Type: 'AWS::Lambda::Permission'
     Properties:
       Action: 'lambda:InvokeFunction'
-      FunctionName: !Ref CDDemoLambda2
+      FunctionName: !Ref indexPhotos
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
       SourceArn: !Sub 'arn:aws:s3:::album-bucket'
