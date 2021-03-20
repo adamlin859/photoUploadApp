@@ -188,6 +188,8 @@ Resources:
                       method.response.header.Access-Control-Allow-Origin: '''*'''
                     responseTemplates:
                       application/json: ''
+                    requestTemplates:
+                      application/json: ''
             put:
               summary: photo upload method
               description: >
@@ -243,7 +245,7 @@ Resources:
                   integration.request.path.filename: method.request.header.filename
                   integration.request.header.Content-Type: method.request.header.Content-Type
                 uri: >-
-                  arn:aws:apigateway:us-east-1:s3:path/photo-bucket-v3/{filename}
+                  arn:aws:apigateway:us-east-1:s3:path/photo-bucket-v4/{filename}
                 contentHandling: CONVERT_TO_BINARY
                 passthroughBehavior: WHEN_NO_TEMPLATES
                 httpMethod: PUT
