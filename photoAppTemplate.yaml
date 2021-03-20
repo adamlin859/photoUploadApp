@@ -30,3 +30,38 @@ Resources:
       Environment:
         Variables:
           REGION: us-east-1
+  photoBucket:
+    Type: 'AWS::S3::Bucket'
+    DependsOn: BucketPermission
+    Properties:
+      BucketName: album-bucket
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: 's3:ObjectCreated:Put'
+            Function: !GetAtt 
+              - indexPhotos
+              - Arn
+  BucketPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref CDDemoLambda2
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref 'AWS::AccountId'
+      SourceArn: !Sub 'arn:aws:s3:::album-bucket'
+  photoBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref photoBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref photoBucket
+                - /*
+            Principal: '*'
+            Sid: AllowPublicRead
