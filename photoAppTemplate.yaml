@@ -2,22 +2,19 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Search Photo
 Resources:
   indexPhotos:
-    Type: 'AWS::Lambda::Function'
+    Type: 'AWS::Serverless::Function'
     Properties:
+      FunctionName: index-photos
       Description: Lambda function for CD Demo
+      Runtime: python3.6
       CodeUri: ./index-photos
-      Tags:
-        - Value: SAM
-          Key: 'lambda:createdBy'
+      Handler: lambda_function.lambda_handler
       MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::269578278636:role/admin-lambda-role'
       Environment:
         Variables:
           REGION: us-east-1
-      Handler: lambda_function.lambda_handler
-      Role: 'arn:aws:iam::269578278636:role/admin-lambda-role'
-      Timeout: 30
-      Runtime: python3.6
-      FunctionName: index-photos
   photoBucketV3:
     Type: 'AWS::S3::Bucket'
     DependsOn: BucketPermission
@@ -54,13 +51,10 @@ Resources:
             Principal: '*'
             Sid: AllowPublicRead
   searchPhotos:
-    Type: 'AWS::Lambda::Function'
+    Type: 'AWS::Serverless::Function'
     Properties:
       Description: Lambda function for CD Demo
       CodeUri: ./search-photos
-      Tags:
-        - Value: SAM
-          Key: 'lambda:createdBy'
       MemorySize: 128
       Environment:
         Variables:
