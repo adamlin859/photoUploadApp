@@ -34,7 +34,7 @@ Resources:
     Type: 'AWS::S3::Bucket'
     DependsOn: BucketPermission
     Properties:
-      BucketName: album-bucket
+      BucketName: photo-bucket-v4
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: 's3:ObjectCreated:Put'
@@ -48,7 +48,7 @@ Resources:
       FunctionName: !Ref indexPhotos
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !Sub 'arn:aws:s3:::album-bucket'
+      SourceArn: !Sub 'arn:aws:s3:::photo-bucket-v4'
   photoBucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:
