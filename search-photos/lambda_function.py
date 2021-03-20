@@ -4,13 +4,12 @@ import requests
 from requests.auth import HTTPBasicAuth
 ​
 def lambda_handler(event, context):
-​    bucket_url = 'https://photos-bucket-cf.s3.amazonaws.com/'
+    bucket_url = 'https://photos-bucket-cf.s3.amazonaws.com/'
     query = event['queryStringParameters']['q'].strip().lower()
 
     # extract es endpoint information
     es_client = boto3.client('es')
     es_endpoint = client.describe_elasticsearch_domain(DomainName='photos_cf')['DomainStatus']['Endpoint']
-​    # Query lex bot
     client = boto3.client('lex-runtime', region_name='us-east-1')
     response = client.post_text(
         botName='search_photos',
@@ -28,7 +27,7 @@ def lambda_handler(event, context):
         }
 
     slots = response['slots']
-​    labels = []
+    labels = []
     for k, v in slots.items():
         if v:
             labels.append(v)
