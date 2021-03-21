@@ -65,6 +65,12 @@ Resources:
                 - /*
             Principal: '*'
             Sid: AllowPublicRead
+  ServerlessRestApiDeploymentb2888a1f04:
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref ServerlessRestApi
+      Description: RestApi deployment
+      StageName: Stage
   ServerlessRestApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
@@ -91,29 +97,6 @@ Resources:
               summary: CORS support
               description: |
                 Enable CORS by returning correct headers
-              consumes:
-                - application/json
-              produces:
-                - application/json
-              tags:
-                - CORS
-              x-amazon-apigateway-integration:
-                type: mock
-                requestTemplates:
-                  application/json: |
-                    {
-                      "statusCode" : 200
-                    }
-                responses:
-                  'default':
-                    statusCode: '200'
-                    responseParameters:
-                      method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-                      method.response.header.Access-Control-Allow-Methods: '''*'''
-                      method.response.header.Access-Control-Allow-Origin: '''*'''
-                    responseTemplates:
-                      application/json: |
-                        {}
               responses:
                 '200':
                   description: Default response for CORS method
@@ -124,6 +107,18 @@ Resources:
                       type: string
                     Access-Control-Allow-Methods:
                       type: string
+              x-amazon-apigateway-integration:
+                type: mock
+                responses:
+                  default:
+                    statusCode: '200'
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: >-
+                        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
+                      method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    responseTemplates:
+                      application/json: ''
             get:
               summary: photo search method
               description: >
@@ -171,29 +166,6 @@ Resources:
               summary: CORS support
               description: |
                 Enable CORS by returning correct headers
-              consumes:
-                - application/json
-              produces:
-                - application/json
-              tags:
-                - CORS
-              x-amazon-apigateway-integration:
-                type: mock
-                requestTemplates:
-                  application/json: |
-                    {
-                      "statusCode" : 200
-                    }
-                responses:
-                  default:
-                    statusCode: '200'
-                    responseParameters:
-                      method.response.header.Access-Control-Allow-Headers: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-amz-meta-customLabels,filename'
-                      method.response.header.Access-Control-Allow-Methods: '''*'''
-                      method.response.header.Access-Control-Allow-Origin: '''*'''
-                    responseTemplates:
-                      application/json: |
-                        {}
               responses:
                 '200':
                   description: Default response for CORS method
@@ -204,6 +176,20 @@ Resources:
                       type: string
                     Access-Control-Allow-Methods:
                       type: string
+              x-amazon-apigateway-integration:
+                type: mock
+                responses:
+                  default:
+                    statusCode: '200'
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: >-
+                        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-amz-meta-customLabels,filename'
+                      method.response.header.Access-Control-Allow-Methods: '''OPTIONS,PUT'''
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    responseTemplates:
+                      application/json: ''
+                    requestTemplates:
+                      application/json: ''
             put:
               summary: photo upload method
               description: >
@@ -289,12 +275,6 @@ Resources:
                 format: int32
               message:
                 type: string
-  ServerlessRestApiDeploymentb2888a1f04:
-    Type: 'AWS::ApiGateway::Deployment'
-    Properties:
-      RestApiId: !Ref ServerlessRestApi
-      Description: RestApi deployment
-      StageName: Stage
   searchPhotosLambdaAPIPermissionProd:
     Type: 'AWS::Lambda::Permission'
     Properties:
