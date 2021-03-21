@@ -300,43 +300,43 @@ Resources:
           arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/${__Stage__}/GET/search
         - __Stage__: '*'
           __ApiId__: !Ref ServerlessRestApi
-ESDomain:
-  Type: 'AWS::Elasticsearch::Domain'
-  Properties:
-    DomainName: photoindexandsearch
-    AccessPolicies:
-      'Fn::Sub': |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": "*"
-              },
-              "Action": "es:*",
-              "Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photoindexandsearch/*"
-            }
-          ]
-        }
-    ElasticsearchVersion: 7.9
-    AdvancedSecurityOptions:
-      Enabled: true
-      InternalUserDatabaseEnabled: true
-      MasterUserOptions:
-        MasterUserName: coms6998
-        MasterUserPassword: Coms6998!
-    NodeToNodeEncryptionOptions:
-      Enabled: true
-    DomainEndpointOptions:
-      EnforceHTTPS: true
-    EncryptionAtRestOptions:
-      Enabled: true
-    EBSOptions:
-      EBSEnabled: true
-      Iops: 0
-      VolumeSize: 10
-      VolumeType: gp2
-    ElasticsearchClusterConfig:
-      InstanceCount: 1
-      InstanceType: t3.small.elasticsearch
+  ESDomain:
+    Type: 'AWS::Elasticsearch::Domain'
+    Properties:
+      DomainName: photoindexandsearch
+      AccessPolicies:
+        'Fn::Sub': |
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "AWS": "*"
+                },
+                "Action": "es:*",
+                "Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photoindexandsearch/*"
+              }
+            ]
+          }
+      ElasticsearchVersion: 7.9
+      AdvancedSecurityOptions:
+        Enabled: true
+        InternalUserDatabaseEnabled: true
+        MasterUserOptions:
+          MasterUserName: coms6998
+          MasterUserPassword: Coms6998!
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      DomainEndpointOptions:
+        EnforceHTTPS: true
+      EncryptionAtRestOptions:
+        Enabled: true
+      EBSOptions:
+        EBSEnabled: true
+        Iops: 0
+        VolumeSize: 10
+        VolumeType: gp2
+      ElasticsearchClusterConfig:
+        InstanceCount: 1
+        InstanceType: t3.small.elasticsearch
