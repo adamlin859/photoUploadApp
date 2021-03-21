@@ -76,7 +76,12 @@ Resources:
     Properties:
       Name: Album Index and Search
       Description: AI Photo Cloudformation
-      EndpointConfiguration: REGIONAL
+      Parameters:
+        endpointConfigurationTypes: REGIONAL
+        ignore: documentation
+      EndpointConfiguration: 
+        Types:
+          - REGIONAL
       Body:
         swagger: '2.0'
         info:
