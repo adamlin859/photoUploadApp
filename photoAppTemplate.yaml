@@ -76,8 +76,7 @@ Resources:
     Properties:
       Name: Album Index and Search
       Description: AI Photo Cloudformation
-      BinaryMediaTypes:
-        - image/png
+      EndpointConfiguration: REGIONAL
       Body:
         swagger: '2.0'
         info:
@@ -248,6 +247,8 @@ Resources:
                   arn:aws:apigateway:us-east-1:s3:path/photo-bucket-v4/{filename}
                 contentHandling: CONVERT_TO_BINARY
                 passthroughBehavior: WHEN_NO_TEMPLATES
+                requestTemplates:
+                  application/json: ''
                 httpMethod: PUT
                 type: aws
         definitions:
