@@ -2,14 +2,14 @@ import json
 import boto3
 import requests
 from requests.auth import HTTPBasicAuth
-​
-def lambda_handler(event, context):
-    bucket_url = 'https://photos-bucket-cf.s3.amazonaws.com/'
-    query = event['queryStringParameters']['q'].strip().lower()
 
+def lambda_handler(event, context):
+    bucket_url = 'https://photo-bucket-v4.s3.amazonaws.com/'
+    query = event['queryStringParameters']['q'].strip().lower()
+   
     # extract es endpoint information
     es_client = boto3.client('es')
-    es_endpoint = client.describe_elasticsearch_domain(DomainName='photos_cf')['DomainStatus']['Endpoint']
+    es_endpoint = es_client.describe_elasticsearch_domain(DomainName='photoindexandsearch')['DomainStatus']['Endpoint']
     client = boto3.client('lex-runtime', region_name='us-east-1')
     response = client.post_text(
         botName='search_photos',
@@ -35,20 +35,21 @@ def lambda_handler(event, context):
     # Search labels
     photo_keys = {}
     photo_keys['result'] = []
+    urls = set()
     for lab in labels:
         # print(lab)
         get_request_url = 'https://' + es_endpoint + '/photos/_search?q='
         es_response = requests.get(get_request_url+lab, auth=HTTPBasicAuth('coms6998', 'Coms6998!'))
         es_search = json.loads(es_response.content.decode('utf-8'))
-        # print(es_search)
         hits = es_search['hits']['hits']
         # print('h', hits)
         if len(hits)==0:
             continue
 
         for photo in hits:
-            print(photo)
-            photo_keys['result'].append({'url': bucket_url + photo['_source']['objectKey'], "labels":[lab]})
+            if photo['_source']['objectKey'] not in urls:
+                photo_keys['result'].append({'url': bucket_url + photo['_source']['objectKey'], "labels":photo['_source']['labels']})
+                urls.add(photo['_source']['objectKey'])
 
     return {
         'statusCode': 200,
