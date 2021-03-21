@@ -194,6 +194,19 @@ Resources:
                       application/json: ''
                     requestTemplates:
                       application/json: ''
+              x-amazon-apigateway-gateway-responses:
+                DEFAULT_4XX:
+                  responseParameters:
+                    gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+                    gatewayresponse.header.Access-Control-Allow-Methods: '''OPTIONS,PUT'''
+                    gatewayresponse.header.Access-Control-Allow-Methods: >-
+                      'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
+                DEFAULT_5XX:
+                  responseParameters:
+                    gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+                    gatewayresponse.header.Access-Control-Allow-Methods: '''OPTIONS,PUT'''
+                    gatewayresponse.header.Access-Control-Allow-Methods: >-
+                      'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
             put:
               summary: photo upload method
               description: >
