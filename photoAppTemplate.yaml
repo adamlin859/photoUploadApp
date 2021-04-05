@@ -79,7 +79,7 @@ Resources:
     Properties:
       ApiStages: 
       - ApiId: !Ref ServerlessRestApi
-        Stage: !Ref ServerlessRestApiDeploymentb2888a1f04    
+        Stage: !Ref ServerlessRestApiDeploymentb2888a1f04.Stage    
       Description: !Join [" ", [{"Ref": "AWS::StackName"}, "usage plan"]]
       Quota:
         Limit: 2000
