@@ -449,3 +449,4 @@ Resources:
             - logs:*
             - s3:*
             - apigateway:*
+            Resource: '*'
