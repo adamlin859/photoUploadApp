@@ -75,6 +75,7 @@ Resources:
       Value: bkcDSDSWc35Jyb80ywbiH81X8NtvhBUK2229T8mY
   ApiUsagePlan:
     Type: "AWS::ApiGateway::UsagePlan"
+    DependsOn: ServerlessRestApiDeploymentb2888a1f04
     Properties:
       ApiStages: 
       - ApiId: !Ref ServerlessRestApi
