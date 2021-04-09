@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     metadata_resp = s3_client.head_object(Bucket = bucket, Key = name)
     custom_label = metadata_resp['Metadata']['customlabels']
     custom_label = [x.strip().lower() for x in custom_label.split(',')]
-
+    custom_label = [x[:-1] if x[-1] == 's' else x for x in custom_label]
 
     # Extract rekog labels
     labels = get_rekog_labels(bucket, name)

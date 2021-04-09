@@ -31,6 +31,7 @@ def lambda_handler(event, context):
     for k, v in slots.items():
         if v:
             labels.append(v)
+    labels = [x[:-1] if x[-1] == 's' else x for x in labels]
 
     # Search labels
     photo_keys = {}
