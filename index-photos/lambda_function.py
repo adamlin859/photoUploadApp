@@ -27,6 +27,7 @@ def lambda_handler(event, context):
 
     # Extract rekog labels
     labels = get_rekog_labels(bucket, name)
+    labels = [x.lower() for x in labels]
     labels.extend(custom_label)
     labels = list(set(labels))
     print(labels)
