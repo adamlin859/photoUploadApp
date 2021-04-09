@@ -25,7 +25,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': {}
         }
-
+    # this is test comment
     slots = response['slots']
     labels = []
     for k, v in slots.items():
